@@ -1,0 +1,31 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['host','createdAt']) || !newData.exists()",
+        "players": {
+          "$playerId": {
+            ".read": true,
+            ".write": true,
+            ".validate": "newData.hasChildren(['name']) && newData.child('name').isString() && newData.child('name').val().length <= 16"
+          }
+        },
+        "chat": {
+          "$msgId": {
+            ".read": true,
+            ".write": true,
+            ".validate": "newData.hasChildren(['name','text']) && newData.child('text').val().length <= 500"
+          }
+        },
+        "voice": {
+          "$playerId": {
+            ".read": true,
+            ".write": true
+          }
+        }
+      }
+    }
+  }
+}

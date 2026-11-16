@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE SPIN — Truth or Dare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <!-- HOME -->
+  <section id="home" class="screen active">
+    <h1 class="logo">THE <span>SPIN</span></h1>
+    <p class="tagline">Truth or Dare · Multiplayer</p>
+    <div class="btn-group">
+      <button class="btn primary" onclick="showScreen('singleSetup')">Single Player</button>
+      <button class="btn primary" onclick="showScreen('multiplayer')">Multiplayer</button>
+      <button class="btn ghost" onclick="showScreen('howto')">How to Play</button>
+    </div>
+  </section>
+
+  <!-- HOW TO PLAY -->
+  <section id="howto" class="screen">
+    <h2 class="title">How to Play</h2>
+    <div class="card">
+      <ol class="rules">
+        <li>Create a room (max 4 players) or join with a 6-digit code.</li>
+        <li>Each round, spin the bottle — it randomly selects a player.</li>
+        <li>The selected player chooses <b>Truth</b> or <b>Dare</b>.</li>
+        <li>Read the question aloud and answer / perform the dare.</li>
+        <li>Use live chat and voice call to stay connected!</li>
+      </ol>
+    </div>
+    <button class="btn ghost" onclick="showScreen('home')">Back</button>
+  </section>
+
+  <!-- SINGLE PLAYER -->
+  <section id="singleSetup" class="screen">
+    <h2 class="title">Single Player</h2>
+    <div class="card">
+      <label for="singleName">Your Name</label>
+      <input id="singleName" maxlength="16" placeholder="Enter your name" />
+      <button class="btn primary" onclick="startSingle()">Start</button>
+    </div>
+    <button class="btn ghost" onclick="showScreen('home')">Back</button>
+  </section>
+
+  <!-- MULTIPLAYER LOBBY -->
+  <section id="multiplayer" class="screen">
+    <h2 class="title">Multiplayer</h2>
+    <div class="card">
+      <button class="btn primary" onclick="createRoom()">Create Room</button>
+      <div class="divider">or join existing</div>
+      <input id="joinCode" maxlength="6" placeholder="Enter 6-digit code" inputmode="numeric" />
+      <input id="joinName" maxlength="16" placeholder="Your name" />
+      <button class="btn primary" onclick="joinRoom()">Join Room</button>
+    </div>
+    <button class="btn ghost" onclick="showScreen('home')">Back</button>
+  </section>
+
+  <!-- GAME ROOM -->
+  <section id="game" class="screen">
+    <header class="game-header">
+      <div class="room-code">Room: <span id="roomCodeDisplay">------</span></div>
+      <div class="players-bar" id="playersBar"></div>
+      <button class="btn small ghost" onclick="leaveRoom()">Leave</button>
+    </header>
+
+    <div class="game-body">
+      <div class="bottle-area">
+        <div class="bottle-wrapper">
+          <div class="bottle" id="bottle">
+            <div class="bottle-neck"></div>
+            <div class="bottle-body"></div>
+          </div>
+          <div class="pointer"></div>
+        </div>
+        <button class="btn primary big" id="spinBtn" onclick="spinBottle()">SPIN</button>
+        <p class="turn-indicator" id="turnIndicator"></p>
+      </div>
+
+      <aside class="side-panel">
+        <div class="chat-box">
+          <h3>Live Chat</h3>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input-row">
+            <input id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()" />
+            <button class="btn small primary" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+        <button class="btn primary" id="voiceBtn" onclick="toggleVoice()">🎙 Join Voice</button>
+        <div id="voiceStatus" class="voice-status"></div>
+      </aside>
+    </div>
+
+    <!-- TRUTH/DARE MODAL -->
+    <div id="tdModal" class="modal hidden">
+      <div class="modal-content">
+        <h3 id="tdPlayer">Player</h3>
+        <p id="tdPrompt">Choose your fate</p>
+        <div class="btn-group" id="tdChoices">
+          <button class="btn primary" onclick="chooseTruthDare('truth')">TRUTH</button>
+          <button class="btn primary" onclick="chooseTruthDare('dare')">DARE</button>
+        </div>
+        <button class="btn ghost hidden" id="nextRoundBtn" onclick="nextRound()">Next Round</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="audioContainer" style="display:none"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
